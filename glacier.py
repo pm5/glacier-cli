@@ -21,8 +21,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
 
 import argparse
 import calendar
@@ -351,12 +351,12 @@ def find_inventory_jobs(vault, max_age_hours=0):
 
 
 def find_complete_job(jobs):
-    for job in sorted(filter(lambda job: job.completed, jobs), key=lambda job: iso8601.parse_date(job.completion_date), reverse=True):
+    for job in sorted([job for job in jobs if job.completed], key=lambda job: iso8601.parse_date(job.completion_date), reverse=True):
         return job
 
 
 def has_pending_job(jobs):
-    return any(filter(lambda job: not job.completed, jobs))
+    return any([job for job in jobs if not job.completed])
 
 
 def update_job_list(jobs):
@@ -514,7 +514,7 @@ class App(object):
                 f.write(job.get_output(byte_range).read())
 
             whole_parts = job.archive_size // multipart_size
-            for first_byte in xrange(0, whole_parts * multipart_size,
+            for first_byte in range(0, whole_parts * multipart_size,
                                 multipart_size):
                 fetch(first_byte, first_byte + multipart_size)
             remainder = job.archive_size % multipart_size

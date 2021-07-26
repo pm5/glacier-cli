@@ -21,7 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-from __future__ import print_function
+
 
 import sys
 import unittest
@@ -68,7 +68,7 @@ class TestCase(unittest.TestCase):
         print_mock = Mock()
         with patch_builtin('print', print_mock):
             self.app.main()
-        print_mock.assert_called_once_with(sentinel.vault_name, sep=u'\n')
+        print_mock.assert_called_once_with(sentinel.vault_name, sep='\n')
 
     def test_vault_create(self):
         self.run_app(['vault', 'create', 'vault_name'])
@@ -103,9 +103,9 @@ class TestCase(unittest.TestCase):
         nose.tools.assert_equals(
             sorted(print_mock.mock_calls[0][1]),
             sorted([
-                u'id:id_1\tarchive_name_1',
-                u'id:id_2\tarchive_name_1',
-                u'id:id_3\tarchive_name_3',
+                'id:id_1\tarchive_name_1',
+                'id:id_2\tarchive_name_1',
+                'id:id_3\tarchive_name_3',
             ]),
         )
         nose.tools.assert_equals(
@@ -145,7 +145,7 @@ class TestCase(unittest.TestCase):
                 self.app.main()
         mock_exit.assert_called_once_with(EX_TEMPFAIL)
         mock_print.assert_called_once_with(
-            u"glacier: queued retrieval job for archive 'archive_name'",
+            "glacier: queued retrieval job for archive 'archive_name'",
             file=sys.stderr)
         self.connection.get_vault.assert_called_once_with('vault_name')
         mock_vault.retrieve_archive.assert_called_once_with(
@@ -169,7 +169,7 @@ class TestCase(unittest.TestCase):
             'vault_name', 'archive_name')
         mock_job.get_output.assert_called_once_with()
         mock_job.get_output.return_value.read.assert_called_once_with()
-        mock_open.assert_called_once_with('archive_name', u'wb')
+        mock_open.assert_called_once_with('archive_name', 'wb')
         mock_open.return_value.write.assert_called_once_with(
             mock_job.get_output.return_value.read.return_value)
 
