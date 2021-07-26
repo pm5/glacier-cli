@@ -527,10 +527,10 @@ class App(object):
         # even if the file existed before and was longer.
         try:
             f.truncate(job.archive_size)
-        except IOError as e:
-            # Allow ESPIPE, since the "file" couldn't have existed before in
+        except OSError as e:
+            # Allow EINVAL, since the "file" couldn't have existed before in
             # this case.
-            if e.errno != errno.ESPIPE:
+            if e.errno != errno.EINVAL:
                 raise
 
     @classmethod
