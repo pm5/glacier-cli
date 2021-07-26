@@ -537,7 +537,7 @@ class App(object):
     def _archive_retrieve_completed(cls, args, job, name):
         if args.output_filename == '-':
             cls._write_archive_retrieval_job(
-                sys.stdout, job, args.multipart_size)
+                sys.stdout.buffer, job, args.multipart_size)
         else:
             if args.output_filename:
                 filename = args.output_filename
